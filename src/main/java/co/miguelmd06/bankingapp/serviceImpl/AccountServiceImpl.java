@@ -5,9 +5,11 @@ import co.miguelmd06.bankingapp.entity.Account;
 import co.miguelmd06.bankingapp.mapper.AccountMapper;
 import co.miguelmd06.bankingapp.repository.AccountRepository;
 import co.miguelmd06.bankingapp.service.AccountService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
