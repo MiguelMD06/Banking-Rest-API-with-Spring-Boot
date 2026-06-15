@@ -38,7 +38,7 @@ public class AccountController {
 
     @PutMapping
     public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO){
-        AccountDTO updatedAccount = accountService.saveAccount(accountDTO);
+        AccountDTO updatedAccount = accountService.updateAccount(accountDTO);
         return ResponseEntity.ok(updatedAccount);
     }
 
