@@ -1,0 +1,27 @@
+package co.miguelmd06.bankingapp.serviceImpl;
+
+import co.miguelmd06.bankingapp.dto.AccountDTO;
+import co.miguelmd06.bankingapp.entity.Account;
+import co.miguelmd06.bankingapp.mapper.AccountMapper;
+import co.miguelmd06.bankingapp.repository.AccountRepository;
+import co.miguelmd06.bankingapp.service.AccountService;
+
+public class AccountServiceImpl implements AccountService {
+
+    private final AccountRepository accountRepository;
+
+    //Dependency injection by constructor
+    public AccountServiceImpl(AccountRepository accountRepository){
+        this.accountRepository = accountRepository;
+    }
+
+    @Override
+    public AccountDTO saveAccount(AccountDTO accountDTO) {
+        Account savedAccount = accountRepository.save(
+                AccountMapper.toEntity(accountDTO)
+        );
+        return AccountMapper.toDTO(savedAccount);
+    }
+
+
+}
