@@ -48,4 +48,9 @@ public class AccountServiceImpl implements AccountService {
         );
         return AccountMapper.toDTO(updatedAccount);
     }
+
+    @Override
+    public void deleteAccount(Long id) {
+        accountRepository.deleteById(id);
+    }
 }
