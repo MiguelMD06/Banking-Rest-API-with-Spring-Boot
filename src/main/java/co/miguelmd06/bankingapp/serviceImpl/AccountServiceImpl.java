@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
         return AccountMapper.toDTO(
                 accountRepository.findById(id)
                         .orElseThrow(
-                                () -> new ResourceNotFoundException("Account with id "+ id + "does not exist.")
+                                () -> new ResourceNotFoundException("Account with id "+ id + " does not exist.")
                         )
         );
     }
