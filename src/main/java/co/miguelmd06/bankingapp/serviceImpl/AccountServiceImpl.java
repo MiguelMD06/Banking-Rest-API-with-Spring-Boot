@@ -46,6 +46,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO updateAccount(AccountDTO accountDTO) {
+        getAccountById(accountDTO.id());
         Account updatedAccount = accountRepository.save(
                 AccountMapper.toEntity(accountDTO)
         );
@@ -54,6 +55,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(Long id) {
+        getAccountById(id);
         accountRepository.deleteById(id);
     }
 }
