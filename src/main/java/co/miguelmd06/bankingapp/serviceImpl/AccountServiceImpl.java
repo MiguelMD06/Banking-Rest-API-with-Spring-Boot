@@ -6,6 +6,8 @@ import co.miguelmd06.bankingapp.mapper.AccountMapper;
 import co.miguelmd06.bankingapp.repository.AccountRepository;
 import co.miguelmd06.bankingapp.service.AccountService;
 
+import java.util.List;
+
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -31,5 +33,11 @@ public class AccountServiceImpl implements AccountService {
                                 () -> new RuntimeException("Account with id "+ id + "does not exist.")
                         )
         );
+    }
+
+    @Override
+    public List<AccountDTO> getAccounts() {
+        return accountRepository.findAll()
+                .stream().map(AccountMapper :: toDTO).toList();
     }
 }
