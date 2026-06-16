@@ -1,6 +1,7 @@
 package co.miguelmd06.bankingapp.controller;
 
 import co.miguelmd06.bankingapp.dto.AccountDTO;
+import co.miguelmd06.bankingapp.entity.Account;
 import co.miguelmd06.bankingapp.service.AccountService;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
@@ -55,9 +56,21 @@ public class AccountController {
 
     //Deposit Method
     @PutMapping("/{id}/deposit")
-    public ResponseEntity<AccountDTO> depositToAccount(@PathVariable Long id,@RequestBody Map<String,String> request){
+    public ResponseEntity<AccountDTO> depositToAccount(
+            @PathVariable Long id,
+            @RequestBody Map<String,String> request) {
         BigDecimal amount = new BigDecimal(request.get("amount"));
         AccountDTO accountDTO = accountService.depositToAccount(id,amount);
+        return ResponseEntity.ok(accountDTO);
+    }
+
+    //Withdraw Method
+    @PutMapping("/{id}/withdraw")
+    public ResponseEntity<AccountDTO> withdrawAccount(
+            @PathVariable Long id,
+            @RequestBody Map<String,String> request){
+        BigDecimal amount = new BigDecimal(request.get("amount"));
+        AccountDTO accountDTO = accountService.withdrawAccount(id,amount);
         return ResponseEntity.ok(accountDTO);
     }
 }
