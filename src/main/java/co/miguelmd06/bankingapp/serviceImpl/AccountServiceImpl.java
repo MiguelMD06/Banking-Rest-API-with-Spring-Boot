@@ -2,6 +2,7 @@ package co.miguelmd06.bankingapp.serviceImpl;
 
 import co.miguelmd06.bankingapp.dto.AccountDTO;
 import co.miguelmd06.bankingapp.entity.Account;
+import co.miguelmd06.bankingapp.exception.BadRequestException;
 import co.miguelmd06.bankingapp.exception.ResourceNotFoundException;
 import co.miguelmd06.bankingapp.mapper.AccountMapper;
 import co.miguelmd06.bankingapp.repository.AccountRepository;
@@ -62,6 +63,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO depositToAccount(Long id, BigDecimal amount) {
+        validateAmount(amount);
         Account account = AccountMapper.toEntity(getAccountById(id));
         BigDecimal totalBalance = account.getBalance().add(amount);
         account.setBalance(totalBalance);
@@ -72,11 +74,22 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO withdrawAccount(Long id, BigDecimal amount) {
+        validateAmount(amount);
         Account account = AccountMapper.toEntity(getAccountById(id));
         BigDecimal totalBalance = account.getBalance().subtract(amount);
         account.setBalance(totalBalance);
         return AccountMapper.toDTO(
                 accountRepository.save(account)
         );
+    }
+
+    //Validation Methods
+
+    @Override
+    public void validateAmount(BigDecimal amount) {
+        int compare = amount.compareTo(BigDecimal.ZERO);
+        if (compare <= 0){
+            throw new BadRequestException("Invalid amount");
+        }
     }
 }
