@@ -8,6 +8,7 @@ import co.miguelmd06.bankingapp.repository.AccountRepository;
 import co.miguelmd06.bankingapp.service.AccountService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -57,5 +58,15 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(Long id) {
         getAccountById(id);
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    public AccountDTO depositToAccount(Long id, BigDecimal amount) {
+        Account account = AccountMapper.toEntity(getAccountById(id));
+        BigDecimal totalBalance = account.getBalance().add(amount);
+        account.setBalance(totalBalance);
+        return AccountMapper.toDTO(
+                accountRepository.save(account)
+        );
     }
 }
