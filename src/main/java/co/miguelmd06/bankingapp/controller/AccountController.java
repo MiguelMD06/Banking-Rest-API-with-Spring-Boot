@@ -1,13 +1,16 @@
 package co.miguelmd06.bankingapp.controller;
 
 import co.miguelmd06.bankingapp.dto.AccountDTO;
+import co.miguelmd06.bankingapp.entity.Account;
 import co.miguelmd06.bankingapp.service.AccountService;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -49,5 +52,27 @@ public class AccountController {
                 "Account with id " + id + " has been deleted succesfully",
                 HttpStatus.OK
                 );
+    }
+
+    //Deposit Method
+    @PutMapping("/{id}/deposit")
+    public ResponseEntity<AccountDTO> depositToAccount(
+            @PathVariable Long id,
+            @RequestBody Map<String,String> request) {
+        AccountDTO accountDTO = accountService.depositToAccount(
+                id,
+                request.get("amount"));
+        return ResponseEntity.ok(accountDTO);
+    }
+
+    //Withdraw Method
+    @PutMapping("/{id}/withdraw")
+    public ResponseEntity<AccountDTO> withdrawAccount(
+            @PathVariable Long id,
+            @RequestBody Map<String,String> request){
+        AccountDTO accountDTO = accountService.withdrawAccount(
+                id,
+                request.get("amount"));
+        return ResponseEntity.ok(accountDTO);
     }
 }
