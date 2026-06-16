@@ -25,14 +25,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO saveAccount(AccountDTO accountDTO) {
+        
         Account savedAccount = accountRepository.save(
                 AccountMapper.toEntity(accountDTO)
         );
+
         return AccountMapper.toDTO(savedAccount);
     }
 
     @Override
     public AccountDTO getAccountById(Long id) {
+
         return AccountMapper.toDTO(
                 accountRepository.findById(id)
                         .orElseThrow(
@@ -43,16 +46,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> getAccounts() {
+
         return accountRepository.findAll()
                 .stream().map(AccountMapper :: toDTO).toList();
     }
 
     @Override
     public AccountDTO updateAccount(AccountDTO accountDTO) {
+
         getAccountById(accountDTO.id());
         Account updatedAccount = accountRepository.save(
                 AccountMapper.toEntity(accountDTO)
         );
+
         return AccountMapper.toDTO(updatedAccount);
     }
 
@@ -64,46 +70,52 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO depositToAccount(Long id, String amount) {
+
         BigDecimal bigAmount = validateAmount(amount);
         Account account = AccountMapper.toEntity(getAccountById(id));
+
         BigDecimal totalBalance = account.getBalance().add(bigAmount);
         account.setBalance(totalBalance);
-        return AccountMapper.toDTO(
-                accountRepository.save(account)
-        );
+
+        return AccountMapper.toDTO(accountRepository.save(account));
     }
 
     @Override
     public AccountDTO withdrawAccount(Long id, String amount) {
+
         BigDecimal bigAmount = validateAmount(amount);
         Account account = AccountMapper.toEntity(getAccountById(id));
 
         int compare = bigAmount.compareTo(account.getBalance());
         BigDecimal totalBalance = account.getBalance();
+
         if (compare <= 0)
             totalBalance = totalBalance.subtract(bigAmount);
         else
             throw new UnproccesableContentException("Insufficient money");
         account.setBalance(totalBalance);
-        return AccountMapper.toDTO(
-                accountRepository.save(account)
-        );
+
+        return AccountMapper.toDTO(accountRepository.save(account));
     }
 
     //Validation Methods
 
     @Override
     public BigDecimal validateAmount(String amount) {
+
         BigDecimal bigAmount = BigDecimal.ZERO;
+
         try{
             bigAmount = new BigDecimal(amount);
         } catch (Exception e) {
             throw new BadRequestException("String amount is not allowed");
         }
+
         int compare = bigAmount.compareTo(BigDecimal.ZERO);
         if (compare <= 0){
             throw new BadRequestException("Invalid amount");
         }
+
         return bigAmount;
     }
 }
