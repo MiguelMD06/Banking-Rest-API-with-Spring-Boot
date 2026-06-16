@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -49,5 +51,13 @@ public class AccountController {
                 "Account with id " + id + " has been deleted succesfully",
                 HttpStatus.OK
                 );
+    }
+
+    //Deposit Method
+    @PutMapping("/{id}/deposit")
+    public ResponseEntity<AccountDTO> depositToAccount(@PathVariable Long id,@RequestBody Map<String,String> request){
+        BigDecimal amount = new BigDecimal(request.get("amount"));
+        AccountDTO accountDTO = accountService.depositToAccount(id,amount);
+        return ResponseEntity.ok(accountDTO);
     }
 }
