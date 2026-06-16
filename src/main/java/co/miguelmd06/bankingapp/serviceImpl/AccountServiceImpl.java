@@ -62,10 +62,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO depositToAccount(Long id, BigDecimal amount) {
-        validateAmount(amount);
+    public AccountDTO depositToAccount(Long id, String amount) {
+        BigDecimal bigAmount = validateAmount(amount);
         Account account = AccountMapper.toEntity(getAccountById(id));
-        BigDecimal totalBalance = account.getBalance().add(amount);
+        BigDecimal totalBalance = account.getBalance().add(bigAmount);
         account.setBalance(totalBalance);
         return AccountMapper.toDTO(
                 accountRepository.save(account)
@@ -73,10 +73,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO withdrawAccount(Long id, BigDecimal amount) {
-        validateAmount(amount);
+    public AccountDTO withdrawAccount(Long id, String amount) {
+        BigDecimal bigAmount = validateAmount(amount);
         Account account = AccountMapper.toEntity(getAccountById(id));
-        BigDecimal totalBalance = account.getBalance().subtract(amount);
+        BigDecimal totalBalance = account.getBalance().subtract(bigAmount);
         account.setBalance(totalBalance);
         return AccountMapper.toDTO(
                 accountRepository.save(account)
@@ -86,10 +86,17 @@ public class AccountServiceImpl implements AccountService {
     //Validation Methods
 
     @Override
-    public void validateAmount(BigDecimal amount) {
-        int compare = amount.compareTo(BigDecimal.ZERO);
+    public BigDecimal validateAmount(String amount) {
+        BigDecimal bigAmount = BigDecimal.ZERO;
+        try{
+            bigAmount = new BigDecimal(amount);
+        } catch (Exception e) {
+            throw new BadRequestException("String amount is not allowed");
+        }
+        int compare = bigAmount.compareTo(BigDecimal.ZERO);
         if (compare <= 0){
             throw new BadRequestException("Invalid amount");
         }
+        return bigAmount;
     }
 }

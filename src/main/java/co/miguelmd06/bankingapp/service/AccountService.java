@@ -11,7 +11,7 @@ public interface AccountService {
     List<AccountDTO> getAccounts();
     AccountDTO updateAccount(AccountDTO accountDTO);
     void deleteAccount(Long id);
-    AccountDTO depositToAccount(Long id, BigDecimal amount);
-    AccountDTO withdrawAccount(Long id, BigDecimal amount);
-    void validateAmount(BigDecimal amount);
+    AccountDTO depositToAccount(Long id, String amount);
+    AccountDTO withdrawAccount(Long id, String amount);
+    BigDecimal validateAmount(String amount);
 }

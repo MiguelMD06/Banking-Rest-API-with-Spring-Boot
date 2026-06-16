@@ -59,8 +59,9 @@ public class AccountController {
     public ResponseEntity<AccountDTO> depositToAccount(
             @PathVariable Long id,
             @RequestBody Map<String,String> request) {
-        BigDecimal amount = new BigDecimal(request.get("amount"));
-        AccountDTO accountDTO = accountService.depositToAccount(id,amount);
+        AccountDTO accountDTO = accountService.depositToAccount(
+                id,
+                request.get("amount"));
         return ResponseEntity.ok(accountDTO);
     }
 
@@ -69,8 +70,9 @@ public class AccountController {
     public ResponseEntity<AccountDTO> withdrawAccount(
             @PathVariable Long id,
             @RequestBody Map<String,String> request){
-        BigDecimal amount = new BigDecimal(request.get("amount"));
-        AccountDTO accountDTO = accountService.withdrawAccount(id,amount);
+        AccountDTO accountDTO = accountService.withdrawAccount(
+                id,
+                request.get("amount"));
         return ResponseEntity.ok(accountDTO);
     }
 }
