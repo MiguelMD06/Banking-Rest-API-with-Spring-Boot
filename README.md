@@ -2,7 +2,7 @@
 
 This is an API developed using **Spring Boot** to realize banking account management. It allows to make CRUD operations for Accounts. I applied a clean architecture split in layers (MVC + Service + Repository).
 
-## 🛠️ Tecnologías y Herramientas
+## 🛠️ Technologies and Tools
 * **Java** 25
 * **Spring Boot** 4.1.0
 * **Spring Data JPA** (Data Persistence)
@@ -10,18 +10,18 @@ This is an API developed using **Spring Boot** to realize banking account manage
 * **Maven** (Dependency Manager)
 * **Lombok** (Reduce Boilerplate code)
 
-## 🚀 Configuración y Ejecución en Local
+## 🚀 Settings and Local deployment
 
-### Requisitos previos
+### Prerequisites
 * Have installed JDK 25 or greater.
 * Have a MySql Server.
 
-### Variables de Entorno Necesarias
+### Environment Variables
 To ensure that the application connects to the database securely, you must configure the following environment variables on your system or in your IDE:
 * `DATABASE_USERNAME`: Your DB user
 * `DATABASE_PASSWORD`: Yur DB password
 
-### Pasos para ejecutar:
+### Steps to deploy:
 1. Clone this repository:
 ```bash
    git clone https://github.com/MiguelMD06/Banking-Rest-API-with-Spring-Boot.git
