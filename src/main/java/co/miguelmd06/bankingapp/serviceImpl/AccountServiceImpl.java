@@ -69,4 +69,14 @@ public class AccountServiceImpl implements AccountService {
                 accountRepository.save(account)
         );
     }
+
+    @Override
+    public AccountDTO withdrawAccount(Long id, BigDecimal amount) {
+        Account account = AccountMapper.toEntity(getAccountById(id));
+        BigDecimal totalBalance = account.getBalance().subtract(amount);
+        account.setBalance(totalBalance);
+        return AccountMapper.toDTO(
+                accountRepository.save(account)
+        );
+    }
 }

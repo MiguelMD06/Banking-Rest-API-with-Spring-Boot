@@ -12,4 +12,5 @@ public interface AccountService {
     AccountDTO updateAccount(AccountDTO accountDTO);
     void deleteAccount(Long id);
     AccountDTO depositToAccount(Long id, BigDecimal amount);
+    AccountDTO withdrawAccount(Long id, BigDecimal amount);
 }
