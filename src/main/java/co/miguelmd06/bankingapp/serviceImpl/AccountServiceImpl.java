@@ -4,6 +4,7 @@ import co.miguelmd06.bankingapp.dto.AccountDTO;
 import co.miguelmd06.bankingapp.entity.Account;
 import co.miguelmd06.bankingapp.exception.BadRequestException;
 import co.miguelmd06.bankingapp.exception.ResourceNotFoundException;
+import co.miguelmd06.bankingapp.exception.UnproccesableContentException;
 import co.miguelmd06.bankingapp.mapper.AccountMapper;
 import co.miguelmd06.bankingapp.repository.AccountRepository;
 import co.miguelmd06.bankingapp.service.AccountService;
@@ -76,7 +77,13 @@ public class AccountServiceImpl implements AccountService {
     public AccountDTO withdrawAccount(Long id, String amount) {
         BigDecimal bigAmount = validateAmount(amount);
         Account account = AccountMapper.toEntity(getAccountById(id));
-        BigDecimal totalBalance = account.getBalance().subtract(bigAmount);
+
+        int compare = bigAmount.compareTo(account.getBalance());
+        BigDecimal totalBalance = account.getBalance();
+        if (compare <= 0)
+            totalBalance = totalBalance.subtract(bigAmount);
+        else
+            throw new UnproccesableContentException("Insufficient money");
         account.setBalance(totalBalance);
         return AccountMapper.toDTO(
                 accountRepository.save(account)
